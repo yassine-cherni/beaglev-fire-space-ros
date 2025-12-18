@@ -1,0 +1,36 @@
+header:
+  version: 14
+  includes:
+    - kas/yocto/scarthgap.yml
+    - kas/machine/beaglev-fire.yml
+    - kas/spaceros/jazzy.yml
+    - kas/common.yml
+    - kas/diskmon.yml
+    - kas/systemd.yml
+
+build_system: oe
+
+target:
+  - core-image-minimal
+
+local_conf_header:
+  project: |
+    # BeagleV-Fire Space-ROS Project
+    DISTRO = "ros2"
+    
+    # Additional image features
+    IMAGE_FEATURES += "splash package-management ssh-server-dropbear"
+    
+    # Development tools
+    IMAGE_INSTALL:append = " \
+        htop \
+        tmux \
+        vim \
+        git \
+        python3 \
+        python3-pip \
+        i2c-tools \
+        can-utils \
+        usbutils \
+        pciutils \
+    "

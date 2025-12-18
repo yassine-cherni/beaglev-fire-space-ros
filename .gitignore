@@ -1,0 +1,28 @@
+build/
+downloads/
+sstate-cache/
+layers/
+tmp/
+
+# kas-container executable
+kas-container
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

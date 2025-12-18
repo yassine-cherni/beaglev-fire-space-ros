@@ -1,0 +1,25 @@
+header:
+  version: 14
+
+repos:
+  meta-ros:
+    url: "https://github.com/ros/meta-ros.git"
+    branch: "scarthgap"
+    commit: "8fb0ee223c8dfcd69f7b71ef8bce449015c1d3fa"
+    path: "layers/meta-ros"
+    layers:
+      meta-ros-common:
+      meta-ros2:
+      meta-ros2-jazzy:
+      meta-spaceros:
+      meta-spaceros-jazzy:
+
+local_conf_header:
+  ros2: |
+    # ROS2 Jazzy Configuration
+    ROS_DISTRO = "jazzy"
+    ROS_OE_RELEASE_SERIES = "scarthgap"
+    
+  spaceros: |
+    # Space-ROS specific packages
+    IMAGE_INSTALL:append = " packagegroup-ros-world-jazzy"

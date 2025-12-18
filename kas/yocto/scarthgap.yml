@@ -1,0 +1,44 @@
+header:
+  version: 14
+
+defaults:
+  repos:
+    branch: "scarthgap"
+
+# https://downloads.yoctoproject.org/releases/yocto/yocto-5.0.13/RELEASENOTES
+repos:
+  openembedded-core:
+    url: "https://github.com/openembedded/openembedded-core.git"
+    commit: "2b3d2b671a149cbeea2bdc9ba42192da2015c3b7"
+    path: "layers/openembedded-core"
+    layers:
+      meta:
+
+  bitbake:
+    url: "https://github.com/openembedded/bitbake.git"
+    branch: "2.8"
+    commit: "8dcf084522b9c66a6639b5f117f554fde9b6b45a"
+    path: "layers/bitbake"
+    layers:
+      bitbake: "disabled"
+
+  meta-openembedded:
+    url: "https://github.com/openembedded/meta-openembedded.git"
+    commit: "b4812b18eec77e9f0286bd6b81a5c3032ac0d3be"
+    path: "layers/meta-openembedded"
+    layers:
+      meta-filesystems:
+      meta-multimedia:
+      meta-networking:
+      meta-oe:
+      meta-perl:
+      meta-python:
+    
+local_conf_header:
+  downloads: |
+    DL_DIR ?= "${TOPDIR}/../downloads"
+    SSTATE_DIR ?= "${TOPDIR}/../sstate-cache"
+  packages: |
+    PACKAGE_CLASSES ?= "package_ipk"
+  distro: |
+    WARN_QA:remove = "license-exists"

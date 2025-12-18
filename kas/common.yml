@@ -1,0 +1,10 @@
+header:
+  version: 14
+
+local_conf_header:
+  common: |
+    DISTRO_FEATURES += "usrmerge"
+    IMAGE_FEATURES += "empty-root-password allow-empty-password allow-root-login post-install-logging"
+    INHERIT += "rm_work"
+    LICENSE_FLAGS_ACCEPTED += "commercial"
+    USER_CLASSES ?= "buildstats"
