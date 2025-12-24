@@ -8,9 +8,11 @@ repos:
     path: "layers/meta-rauc"
     layers:
       .:
+      
 local_conf_header:
   rauc: |
     # RAUC Configuration for OTA
-    IMAGE_CLASSES += "image_type_rauc"
-    IMAGE_FSTYPES += "raucb"
+    DISTRO_FEATURES:append = " rauc"
+    IMAGE_CLASSES += "rauc"
+    IMAGE_FSTYPES += "wic"
     WKS_FILE = "beaglev-fire-rauc.wks"

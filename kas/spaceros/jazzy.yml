@@ -2,16 +2,14 @@ header:
   version: 20
 repos:
   meta-ros:
-    url: "https://github.com/robwoolley/meta-ros.git"
-    branch: "spaceros-preview"
-    commit: "03e785f565ea580048210b3e1f1904e6a11bc5b5"
+    url: "https://github.com/ros/meta-ros.git"
+    branch: "scarthgap"
     path: "layers/meta-ros"
     layers:
       meta-ros-common:
       meta-ros2:
       meta-ros2-jazzy:
-      meta-spaceros:
-      meta-spaceros-jazzy:
+
 local_conf_header:
   ros2: |
     # ROS2 Jazzy Configuration
@@ -19,5 +17,5 @@ local_conf_header:
     ROS_OE_RELEASE_SERIES = "scarthgap"
    
   spaceros: |
-    # Space-ROS specific packages
-    IMAGE_INSTALL:append = " packagegroup-ros-world-jazzy packagegroup-spaceros-jazzy-demos"
+    # Space-ROS base packages
+    IMAGE_INSTALL:append = " packagegroup-ros-world-jazzy"

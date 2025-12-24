@@ -2,212 +2,107 @@
 BeagleV-Fire Space-ROS Yocto Build System
 ===============================================
 
+Professional Yocto/OpenEmbedded build system for BeagleV-Fire with ROS2 Jazzy and Space-ROS support.
+
 .. warning::
 
    **Project Status: Under Active Development**
 
-   This project is in testing phase and under active development.
+   This project is in active development. Build configurations and features may change.
+   Community contributions are welcome.
 
-   - Build configurations may change frequently
-   - Some features may not work as expected
-   - Documentation is being continuously updated
-   - Use at your own risk in production environments
-
-   **Last Updated:** December 18, 2025
-
-   **Tested Configurations:**
-
-   - Ubuntu 22.04 LTS
-   - Ubuntu 24.04 LTS
-
-Professional Yocto/OpenEmbedded build system for BeagleV-Fire with ROS2 Jazzy and Space-ROS support.
-
-.. contents:: Table of Contents
-   :depth: 3
-   :local:
+   **Last Updated:** December 24, 2025
 
 Overview
 ========
 
-This repository provides a complete Yocto build configuration for the BeagleV-Fire single-board computer, featuring:
+This repository provides a complete Yocto build configuration for the BeagleV-Fire RISC-V single-board computer with FPGA capabilities, featuring ROS2 Jazzy, Space-ROS framework, and hardware acceleration support.
 
-- Yocto Scarthgap 5.0.14 - Latest LTS release
-- ROS2 Jazzy - Long Term Support (EOL May 2029)
-- Space-ROS - NASA's robotics framework for space applications
-- Linux 6.12.x - LTS kernel with PolarFire SoC support
-- Systemd - Modern init system
-- Professional kas configuration - Modular, maintainable structure
+**Key Features:**
 
-Target Hardware
-===============
+- Yocto Scarthgap 5.0.14 LTS (EOL April 2028)
+- ROS2 Jazzy LTS (EOL May 2029)
+- Space-ROS NASA robotics framework
+- FPGA acceleration capabilities
+- Linux 6.12.x LTS kernel
+- Modular KAS-based configuration
 
-BeagleV-Fire Specifications
----------------------------
-
-:SoC: Microchip PolarFire MPFS025T FPGA SoC
-:CPU: 5-core RISC-V (1x E51 monitor + 4x U54 application cores @ 625MHz)
-:Architecture: RV64IMAFDC (RV64GC)
-:Memory: 2GB LPDDR4
-:Storage: 16GB eMMC, 128MB SPI Flash, microSD slot
-:FPGA: 23K Logic Elements, 68 Math Blocks, 4x 12.7 Gbps SERDES
-:Connectivity: Gigabit Ethernet, USB-C, M.2 E-Key, SYZYGY
-:Camera: 22-pin CSI connector
-:Expansion: BeagleBone Cape compatibility
-
-Prerequisites
-=============
-
-Host System Requirements
-------------------------
-
-**Operating System:**
-
-- Ubuntu 20.04, 22.04, 24.04 LTS (tested and recommended)
-- Fedora 40, 41
-- Debian 12
-- Other Linux distributions may work but are not officially supported
-
-**Hardware Requirements:**
-
-- Disk Space: 100GB+ free (150GB+ recommended)
-- RAM: 16GB minimum (32GB recommended)
-- CPU: Multi-core processor (more cores = faster build)
-- Internet: Fast, stable connection (first build downloads ~50GB)
-
-**Install Docker or Podman:**
+Quick Start
+===========
 
 .. code-block:: bash
 
-   # Docker (recommended)
-   sudo apt-get install -y docker.io
-   sudo usermod -aG docker $USER
-
-   # Log out and log back in for group changes to take effect
-
-   # Verify Docker installation
-   docker --version
-
-First-Time Setup
-================
-
-Step 1: Clone the Repository
------------------------------
-
-.. code-block:: bash
-
+   # Clone and setup
    git clone https://github.com/yassine-cherni/beaglev-fire-space-ros.git
    cd beaglev-fire-space-ros
-
-Step 2: Make Setup Scripts Executable
---------------------------------------
-
-.. code-block:: bash
-
-   chmod +x setup.sh
-
-.. note::
-
-   The ``chmod +x`` command makes scripts executable. You only need to do this once.
-
-Step 3: Run Initial Setup
---------------------------
-
-.. code-block:: bash
-
    ./setup.sh
 
-**What this does:**
-
-1. Downloads ``kas-container`` (version 5.1) if not present
-2. Creates ``downloads/`` directory for persistent source caches
-3. Creates ``sstate-cache/`` directory for persistent build artifacts
-
-**Expected output:**
-
-.. code-block:: text
-
-   kas-container (version 5.1) downloaded and made executable.
-   Persistent directories created: downloads and sstate-cache.
-   Setup complete! Use ./kas-container shell kas/beaglev-fire-space-ros.yml to enter the build shell.
-
-Step 4: Verify Configuration
------------------------------
-
-Test the kas configuration without building:
-
-.. code-block:: bash
-
-   ./kas-container shell kas/beaglev-fire-space-ros.yml
-
-Building Images
-===============
-
-First Build (Standard Method)
-------------------------------
-
-.. warning::
-
-   **First build takes 2-4 hours** depending on your system and internet speed.
-
-   - Downloads ~50GB of source code
-   - Compiles thousands of packages
-   - Requires significant CPU and RAM
-   - Do NOT interrupt the build process
-
-Build the minimal image with ROS2 support:
-
-.. code-block:: bash
-
+   # Build (2-4 hours first time)
    ./kas-container build kas/beaglev-fire-space-ros.yml
 
-**Build progress indicators:**
-
-- You'll see tasks being executed: ``do_fetch``, ``do_unpack``, ``do_compile``, etc.
-- Progress format: ``Currently X running tasks (Y of Z)``
-- Do not worry about warnings - only errors will stop the build
-
-**Successful build output location:**
-
-.. code-block:: text
-
-   build/tmp/deploy/images/beaglev-fire/
-   └── core-image-minimal-beaglev-fire.wic.gz
-
-Known Issues
-============
-
-Version Alignment Notes
------------------------
-
-The current configuration uses Yocto Scarthgap 5.0.14 with the meta-mchp BSP from linux4microchip/meta-mchp at commit 3be437a5b7d463b743ae2564038fdedabcbde17b (latest on scarthgap branch as of Dec 8, 2025). Point releases within Scarthgap (5.0.x) are backward compatible, focusing on security fixes and bug patches.
-
-- This aligns with the latest security updates, including CVE-2023-48795 fix in meta-openembedded.
-- Tested compatibility: Builds successfully, but full hardware validation is ongoing.
-- If issues arise, consider pinning to an earlier commit, but starting with the latest is recommended for security.
-
-For details on potential Microchip BSP compatibility with older Scarthgap versions (e.g., 5.0.9), refer to the project issues.
+   # Output: build/tmp/deploy/images/beaglev-fire/core-image-minimal-beaglev-fire.wic.gz
 
 Documentation
 =============
 
-Documentation is hosted in the top-level ``/docs`` directory and deployed to GitHub Pages.
+Complete documentation is available in the ``docs/`` directory:
 
-- **Structure:** Uses Markdown with a defined syntax (e.g., GitHub Flavored Markdown).
-- **Linter:** Markdownlint is configured for consistency.
-- **Deployment:** Automated via GitHub Actions to GitHub Pages.
+**Getting Started:**
 
-Key Pages:
+- `Project Overview <docs/overview.rst>`_ - Detailed project information and roadmap
+- `Hardware Specifications <docs/hardware.rst>`_ - BeagleV-Fire technical details
+- `Installation Guide <docs/installation.rst>`_ - Prerequisites and setup
+- `Building Images <docs/building.rst>`_ - Build process and workflow
 
-- Project home: docs/index.md
-- Getting started: docs/getting-started.md (beginner-friendly guide)
-- Build for developers: docs/build.md (includes platform-specific sections like BeagleV-Fire FPGA workflows, QEMU RISC-V 64, and suggestions for other platforms as contributions)
-- Flashing hardware: docs/flash.md
-- Working with layers: docs/layers.md (covers user space layers like meta-ros, meta-spaceros, meta-cfs, meta-fprime; creating recipes with bitbake, building, and deploying)
-- Footprint analysis: docs/footprint.md
-- Hardware porting guide: docs/porting.md
+**Development:**
 
-To add new layers (e.g., meta-* for BSP, Distro, or apps), use bitbake recipes in custom layers and include them via kas configuration files. No code changes are needed; document additions in the layers guide.
+- `Architecture <docs/architecture.rst>`_ - Repository structure and layers
+- `Recipe Management <docs/recipes.rst>`_ - Creating and managing Yocto recipes with MASH
+- `Customization <docs/customization.rst>`_ - Adding packages and features
+- `FPGA Acceleration <docs/fpga.rst>`_ - Hardware acceleration (planned)
 
-For example, to add RAUC for OTA updates (as discussed in ELISA SGL meetings), create a recipe:
+**Support:**
 
-Create file: layers/meta-custom/recipes-support/rauc/rauc.bbappend (or new recipe if needed)
+- `Troubleshooting <docs/troubleshooting.rst>`_ - Common issues and solutions
+- `Contributing <docs/contributing.rst>`_ - Contribution guidelines
+
+System Requirements
+===================
+
+**Host System:**
+
+- Ubuntu 22.04/24.04 LTS (recommended)
+- 150GB free disk space
+- 16GB RAM minimum (32GB recommended)
+- Docker or Podman installed
+
+**Installation:** See `Installation Guide <docs/installation.rst>`_
+
+License
+=======
+
+MIT License - See LICENSE file for details.
+
+**Third-Party Components:** Yocto Project, ROS2, Space-ROS, Linux Kernel - See respective licenses.
+
+Links
+=====
+
+- **Documentation:** `docs/ <docs/>`_
+- **Issues:** https://github.com/yassine-cherni/beaglev-fire-space-ros/issues
+- **Discussions:** https://github.com/yassine-cherni/beaglev-fire-space-ros/discussions
+
+Acknowledgments
+===============
+
+- Rob Woolley - MASH tool creator + meta-ros Maintainer
+- BeagleBoard.org Foundation
+- Microchip Technology
+- NASA/JPL Space-ROS team
+- Open Source Robotics Foundation
+
+---
+
+Built for the Space-ROS and RISC-V communities
+
+*Last Updated: December 24, 2025*
