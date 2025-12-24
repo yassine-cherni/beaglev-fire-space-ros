@@ -1,8 +1,14 @@
+# Build directories
 build/
 downloads/
 sstate-cache/
-layers/
 tmp/
+
+# External layers
+layers/*
+!layers/meta-beaglev-fire-bsp
+!layers/meta-spaceros-distro
+!layers/meta-spaceros-app
 
 # kas-container executable
 kas-container
@@ -26,3 +32,5 @@ Thumbs.db
 
 # Logs
 *.log
+# Kas shell history
+.kas_shell_history

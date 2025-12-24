@@ -1,5 +1,5 @@
 header:
-  version: 14
+  version: 20
   includes:
     - kas/yocto/scarthgap.yml
     - kas/machine/beaglev-fire.yml
@@ -7,6 +7,8 @@ header:
     - kas/common.yml
     - kas/diskmon.yml
     - kas/systemd.yml
+    - kas/rauc.yml
+    - kas/limit-pressure.yml
 
 build_system: oe
 
@@ -16,7 +18,7 @@ target:
 local_conf_header:
   project: |
     # BeagleV-Fire Space-ROS Project
-    DISTRO = "ros2"
+    DISTRO = "spaceros"
     
     # Additional image features
     IMAGE_FEATURES += "splash package-management ssh-server-dropbear"

@@ -1,12 +1,13 @@
 header:
-  version: 14
+  version: 20
 repos:
   meta-rauc:
     url: "https://github.com/rauc/meta-rauc.git"
     branch: "scarthgap"
     commit: "a0f4a8b9986954239850b9d4256c003c91e6b931"
+    path: "layers/meta-rauc"
     layers:
-      meta-rauc:
+      .:
 local_conf_header:
   rauc: |
     # RAUC Configuration for OTA
